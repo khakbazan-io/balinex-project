@@ -1,4 +1,4 @@
-import { UsersList } from "@/components/users";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { generateMeta } from "@/core/utils";
 
 export const metadata = generateMeta({
@@ -9,7 +9,7 @@ export const metadata = generateMeta({
 export default function HomePage() {
   return (
     <div className="max-w-3xl mx-auto pt-6">
-      <UsersList />
+      <ThemeSwitch />
     </div>
   );
 }
