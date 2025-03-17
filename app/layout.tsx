@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   // manifest: "/manifest.json",
   authors: [{ name: site.author.name.en }],
   creator: site.author.name.en,
-  icons: { icon: "/logo/logo-128.png", apple: "/logo/logo-128.png" },
+  // icons: { icon: "/logo/logo-128.png", apple: "/logo/logo-128.png" },
   other: {
     "mobile-web-app-capable": "yes",
-    "msapplication-TileColor": "#1273eb",
+    "msapplication-TileColor": "#006fee",
     "msapplication-tap-highlight": "no",
     "theme-color": "222831",
   },
@@ -40,7 +40,7 @@ export default async function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-iranyekan antialiased overflow-x-clip",
-          fontYekan.variable,
+          fontYekan.variable
         )}
       >
         <Providers
