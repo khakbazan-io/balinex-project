@@ -11,6 +11,7 @@ import { site } from "./site";
  */
 export interface SsrQueryOptions extends RequestInit {
   isInternalRequest?: boolean;
+  url: string;
 }
 
 /**
@@ -27,13 +28,10 @@ export interface SsrQueryOptions extends RequestInit {
  * @returns {Promise<T>} A promise resolving to the response data.
  * @throws {HandledError} Throws a structured error object from `finalizeError`.
  */
-export async function ssrQuery<T>(
-  url: string,
-  options?: SsrQueryOptions
-): Promise<T> {
+export async function ssrQuery<T>(options: SsrQueryOptions): Promise<T> {
   try {
     // Extract isInternalRequest from options to avoid passing it to fetch
-    const { isInternalRequest, ...fetchOptions } = options || {};
+    const { isInternalRequest, url, ...fetchOptions } = options || {};
 
     // we define baseUrl based on isInternalRequest, project api folder or our backend api endpoints
     const baseUrl = isInternalRequest ? site.apiUrl.local : site.apiUrl.main;
