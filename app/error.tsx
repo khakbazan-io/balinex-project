@@ -1,5 +1,5 @@
 "use client";
-import { Button, Text } from "@/core/common";
+import { Button } from "@/core/common";
 import { useEffect } from "react";
 
 export default function Error({
@@ -17,9 +17,7 @@ export default function Error({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen max-w-2xl mx-auto gap-y-4">
-      <Text as="h2" size="lg" weight="semibold">
-        مشکلی پیش آمده!
-      </Text>
+      <h2 className="text-lg font-semibold">مشکلی پیش آمده</h2>
 
       <Button onPress={() => reset()} color="primary">
         تلاش مجدد

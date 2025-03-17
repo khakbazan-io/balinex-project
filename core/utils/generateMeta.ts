@@ -54,7 +54,7 @@ export function generateMeta({
     openGraph: {
       title: title,
       description: description,
-      url: slug ? `${site.url}/${slug}` : site.url,
+      url: slug ? `${site.url}/${slug}` : String(site.url),
       siteName: site.name.fa,
       locale: "fa_IR",
       tags: tags,
@@ -63,7 +63,7 @@ export function generateMeta({
       images: image ? { url: image } : undefined, // Ensuring proper OpenGraph image format
     },
     alternates: {
-      canonical: slug ? `${site.url}/${slug}` : site.url,
+      canonical: slug ? `${site.url}/${slug}` : String(site.url),
     },
     other: {
       "og:brand": site.name.fa!,

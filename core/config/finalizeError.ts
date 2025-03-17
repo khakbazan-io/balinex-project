@@ -9,6 +9,7 @@ export interface ApiError {
     id: number; // Unique error identifier from the backend
     message: string; // Human-readable error message
     code: number; // Error code for categorization
+    name: string;
   };
 }
 
@@ -17,9 +18,11 @@ export interface ApiError {
  */
 interface HandledError {
   id: number | null; // Error ID (null if not provided)
+  name: string;
   message: string; // Error message for display
   code: number | null; // Error code (null if unknown)
   type: "backend" | "network" | "unknown"; // Error type classification
+  status: number | null; // HTTP status code (null if unknown)
 }
 
 /**
@@ -41,19 +44,23 @@ export function finalizeError(error: unknown): HandledError {
     if (errorData?.error) {
       return {
         id: errorData.error.id || null,
+        name: errorData?.error?.name || "خطای ناشناخته",
         message: errorData.error.message || "خطای ناشناخته‌ای رخ داده است", // "An unknown error occurred."
         code: errorData.error.code || null,
         type: "backend",
+        status: error.response?.status || null, // Include status code
       };
     }
 
     if (!error.response) {
       return {
         id: null,
+        name: "خطا در اتصال به اینترنت",
         message:
           "ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.", // "Could not connect to the server. Please check your internet connection."
         code: null,
         type: "network",
+        status: null, // No status code for network errors
       };
     }
   }
@@ -62,9 +69,11 @@ export function finalizeError(error: unknown): HandledError {
   if (error instanceof Response) {
     return {
       id: null,
-      message: `خطای سرور: ${error.statusText} (${error.status})`, // "Server error: statusText (statusCode)"
+      name: "خطا در ارتباط با سرور",
+      message: `خطای سرور: ${error.statusText} (${error.status})`, // "Server error: statusText (status)"
       code: error.status || null,
       type: "backend",
+      status: error.status || null, // Include status code
     };
   }
 
@@ -72,17 +81,21 @@ export function finalizeError(error: unknown): HandledError {
   if (error instanceof Error && error.message.includes("Failed to fetch")) {
     return {
       id: null,
+      name: "خطا در ارتباط با سرور",
       message: "اتصال به سرور برقرار نشد. لطفاً اینترنت خود را بررسی کنید.", // "Could not connect to the server. Please check your internet connection."
       code: null,
       type: "network",
+      status: null, // No status code for network errors
     };
   }
 
   /** Handle **Unknown Errors** */
   return {
     id: null,
+    name: (error as any)?.name ?? "خطای ناشناخته",
     message: (error as any)?.message ?? "خطای ناشناخته‌ای رخ داده است", // "An unknown error occurred."
     code: (error as any)?.code ?? null,
     type: "unknown",
+    status: null, // No status code for unknown errors
   };
 }
