@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardBody, CardHeader, Text } from "@/core/common";
+import { Card, CardBody, CardHeader } from "@/core/common";
 import type { BoxCmProps } from "./types";
 
 export const Box: React.FC<BoxCmProps> = ({
@@ -14,15 +14,9 @@ export const Box: React.FC<BoxCmProps> = ({
     <Card>
       <CardHeader className="flex items-center justify-between">
         <div className="space-y-0.5">
-          <Text as="h3" weight="bold">
-            {title}
-          </Text>
+          <h3 className="font-bold">{title}</h3>
 
-          {hint ? (
-            <Text color="foreGroundExtraLight" size="xs">
-              {hint}
-            </Text>
-          ) : null}
+          {hint ? <p className="text-xs">{hint}</p> : null}
         </div>
 
         {titleAddon && titleAddon}
