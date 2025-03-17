@@ -15,6 +15,12 @@ export const site = {
       linkedin: process.env.NEXT_PUBLIC_AUTHOR_LINKEDIN,
     },
   },
-  url: process.env.NEXT_PUBLIC_SITE_ADDRESS,
-  apiUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
+  url: {
+    main: process.env.NEXT_PUBLIC_SITE_ADDRESS,
+    local: process.env.NEXT_PUBLIC_SITE_ADDRESS_LOCAL,
+  },
+  apiUrl: {
+    main: process.env.NEXT_PUBLIC_BASE_API_URL,
+    local: process.env.NEXT_PUBLIC_BASE_API_URL_LOCAL,
+  },
 };
