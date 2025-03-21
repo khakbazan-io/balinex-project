@@ -12,3 +12,4 @@ export {
   generateCourseSchema,
   generateBreadcrumbSchema,
 } from "./generateSchema";
+export { formatPrice } from "./formatPrice";
