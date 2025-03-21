@@ -14,6 +14,13 @@ export interface SsrQueryOptions extends RequestInit {
   url: string;
 }
 
+export interface SsrQueryOptionsWithCallbacks<T> extends RequestInit {
+  isInternalRequest?: boolean;
+  url: string;
+  onSuccess: (response: T) => void;
+  onError: (error: unknown) => void;
+}
+
 /**
  * Performs a **server-side fetch request** to the provided API endpoint.
  *
