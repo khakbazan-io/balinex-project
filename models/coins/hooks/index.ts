@@ -1,0 +1,1 @@
+export { useGetCoinsList } from "./useGetCoinsList";

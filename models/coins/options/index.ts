@@ -1,1 +1,1 @@
-export { getCoinsListOptions } from "./getCoinsList";
+export { getCoinsListOptions, getCoinsListQueryOptions } from "./getCoinsList";
