@@ -5,4 +5,4 @@ export { Step, Stepper, useStepper } from "./stepper";
 export { SuccessModal } from "./success-modal";
 export { TableAction } from "./table-action";
 export { TableLoading } from "./table-loading";
-export { AccessGaurd } from "./access-gaurd";
+export { TableEmpty } from "./table-empty";
