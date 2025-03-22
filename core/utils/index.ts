@@ -13,3 +13,4 @@ export {
   generateBreadcrumbSchema,
 } from "./generateSchema";
 export { formatPrice } from "./formatPrice";
+export { getQueryParams } from "./getQueryParams";
