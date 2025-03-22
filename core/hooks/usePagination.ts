@@ -73,7 +73,7 @@ export function usePagination({
     if (savedPage !== undefined) {
       setCurrentPage(savedPage);
     }
-  }, [id, savedPage]);
+  }, [savedPage]);
 
   return {
     currentPage,
