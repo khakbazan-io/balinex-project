@@ -20,7 +20,7 @@ export const Pagination: React.FC<PaginationCmProps> = ({ ...props }) => {
           prev: "chevron-prev-custom",
         }}
         {...props}
-        page={props?.page ? props?.page + 1 : undefined}
+        page={props?.page}
       />
     </div>
   );
