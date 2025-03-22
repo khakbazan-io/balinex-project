@@ -5,7 +5,7 @@ import type {
   ControlledNumberInputCmProps,
 } from "./types";
 import { digitsFaToEn, numberToWords } from "@persian-tools/persian-tools";
-import { Input, Text } from "@/core/common";
+import { Input } from "@/core/common";
 
 export const ControlledInput: React.FC<ControlledInputCmProps> = ({
   name,
@@ -63,11 +63,11 @@ export const ControlledNumberInput: React.FC<ControlledNumberInputCmProps> = ({
             {...props}
           />
           {showNumberToWordLabel && field?.value && (
-            <Text className="mt-1" size="xs" color="foreGroundLight">
+            <p className="mt-1 text-xs text-foreground/70">
               {typeof numberToWords(field.value) === "string"
                 ? `${numberToWords(field.value)} ${numberToWordLabelPrefix}`
                 : "عدد نامعتبر"}
-            </Text>
+            </p>
           )}
         </div>
       )}

@@ -16,10 +16,9 @@ import type {
   StepperProps,
 } from "./types";
 import clsx from "clsx";
-import { Text } from "@/core/common";
 
 const StepperContext = createContext<StepperContextProps>(
-  {} as StepperContextProps,
+  {} as StepperContextProps
 );
 
 const InternalStep: React.FC<InternalStepProps> = ({ children, isActive }) => {
@@ -46,7 +45,7 @@ export function Stepper({
 
   const childrenArray = Children.toArray(children).filter(
     (child): child is ReactElement<StepProps> =>
-      isValidElement(child) && child.type === Step,
+      isValidElement(child) && child.type === Step
   );
 
   const totalSteps = childrenArray.length;
@@ -67,7 +66,7 @@ export function Stepper({
     (step: number) => {
       setActiveStep(Math.max(0, Math.min(step, totalSteps - 1)));
     },
-    [totalSteps],
+    [totalSteps]
   );
 
   useEffect(() => {
@@ -95,28 +94,29 @@ export function Stepper({
             key={`stepper-stepps-${child.props.stepId}`}
             className={clsx(
               "flex items-center gap-x-2 pb-6",
-              index !== totalSteps - 1 ? "w-full" : "w-auto",
+              index !== totalSteps - 1 ? "w-full" : "w-auto"
             )}
           >
             <div className="flex items-center gap-x-2">
               <div
                 className={clsx(
                   "flex items-center justify-center  size-8 rounded-full",
-                  activeStep === index + 1 ? "bg-primary" : "bg-default-400/80",
+                  activeStep === index + 1 ? "bg-primary" : "bg-default-400/80"
                 )}
               >
-                <Text className="text-white mt-0.5" weight="normal">
+                <p className="text-foreground mt-0.5 font-normal">
                   {index + 1}
-                </Text>
+                </p>
               </div>
 
-              <Text
-                weight="medium"
-                className="whitespace-nowrap"
-                color={activeStep === index + 1 ? "primary" : "foreground"}
+              <p
+                className={clsx(
+                  "whitespace-nowrap font-medium",
+                  activeStep === index + 1 ? "text-primary" : "text-foreground"
+                )}
               >
                 {child.props.title}
-              </Text>
+              </p>
             </div>
 
             {index !== totalSteps - 1 ? (

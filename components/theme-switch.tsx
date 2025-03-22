@@ -42,7 +42,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         className: clsx(
           "px-px transition-opacity hover:opacity-80 cursor-pointer",
           className,
-          classNames?.base,
+          classNames?.base
         ),
       })}
     >
@@ -64,14 +64,14 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
               "px-0",
               "mx-0",
             ],
-            classNames?.wrapper,
+            classNames?.wrapper
           ),
         })}
       >
         {!isSelected || isSSR ? (
-          <TbSunHigh className="text-foreground-400" size={25} />
+          <TbSunHigh className="text-foreground/75" size={25} />
         ) : (
-          <TbMoon className="text-foreground-400" size={25} />
+          <TbMoon className="text-foreground/75" size={25} />
         )}
       </div>
     </Component>

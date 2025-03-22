@@ -1,12 +1,10 @@
-import { Button, Text } from "@/core/common";
+import { Button } from "@/core/common";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen max-w-2xl mx-auto gap-y-4">
-      <Text as="h2" size="lg" weight="semibold">
-        صفحه مدنظر یافت نشد!
-      </Text>
+      <h2 className="text-lg font-semibold">صفحه مدنظر یافت نشد!</h2>
 
       <Link href="/">
         <Button color="primary">صفحه اصلی</Button>
