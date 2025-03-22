@@ -4,3 +4,8 @@ export type PaginationResponse = {
   count: number;
   total_count: number;
 };
+
+export type PaginationParams = {
+  page: number;
+  per_page: number;
+};
