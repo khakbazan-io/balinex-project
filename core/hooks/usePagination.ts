@@ -72,10 +72,8 @@ export function usePagination({
   useEffect(() => {
     if (savedPage !== undefined) {
       setCurrentPage(savedPage);
-      removeSavedPage();
-      sessionStorage.removeItem(id);
     }
-  }, [id, savedPage, removeSavedPage]);
+  }, [id, savedPage]);
 
   return {
     currentPage,
