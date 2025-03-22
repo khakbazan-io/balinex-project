@@ -17,6 +17,8 @@ import { QuotesEnum, QuotesPersianLabel, type Quotes } from "@/types/coins";
 import { ChangePercentLabel } from "@/common";
 import { useGetCoinsList } from "@/models/coins";
 import { usePagination } from "@/core/hooks";
+import { TableEmpty, TableLoading } from "@/core/components";
+import { useSortTable } from "@/hooks";
 
 export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
   const [currency, setCurrency] = useState<Quotes>(QuotesEnum.USDT);
@@ -26,6 +28,8 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
     isZeroBase: false,
     limit: 10,
   });
+
+  const { sortDescriptor, onSortChange } = useSortTable();
 
   const { data, isFetching } = useGetCoinsList({
     params: {
@@ -48,13 +52,28 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
       return [];
     }
 
-    return data?.result?.markets?.map((item) => ({
+    const result = data.result.markets.map((item) => ({
       ...item,
       quotes: {
-        ...item?.quotes?.[currency],
+        ...item.quotes?.[currency],
       },
     }));
-  }, [currency, data]);
+
+    if (!sortDescriptor) {
+      return result;
+    }
+
+    return result.slice().sort((a, b) => {
+      const valueA = Number(a.quotes?.percentChange24h) || 0;
+      const valueB = Number(b.quotes?.percentChange24h) || 0;
+
+      if (sortDescriptor.direction === "ascending") {
+        return valueA - valueB;
+      } else {
+        return valueB - valueA;
+      }
+    });
+  }, [currency, data, sortDescriptor]);
 
   return (
     <div>
@@ -71,6 +90,10 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
         shadow="none"
         border={1}
         className="pt-3"
+        classNames={{
+          emptyWrapper: "h-[550px]",
+          loadingWrapper: "h-[550px]",
+        }}
         bottomContent={
           <Pagination
             total={data?.result_info?.total_count ?? 0}
@@ -78,17 +101,30 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
             onChange={(page) => onPageSelect(page)}
           />
         }
+        sortDescriptor={sortDescriptor}
+        onSortChange={onSortChange}
       >
         <TableHeader>
           <TableColumn>ارز</TableColumn>
+
           <TableColumn>قیمت</TableColumn>
-          <TableColumn>تغییر 24H</TableColumn>
+
+          <TableColumn key="change" allowsSorting>
+            تغییر 24H
+          </TableColumn>
+
           <TableColumn>بیشترین قیمت 24H</TableColumn>
+
           <TableColumn>کمترین قیمت 24H</TableColumn>
+
           <TableColumn width={90}>خرید</TableColumn>
         </TableHeader>
 
-        <TableBody>
+        <TableBody
+          isLoading={isFetching}
+          loadingContent={<TableLoading />}
+          emptyContent={<TableEmpty />}
+        >
           {coinsData?.map((item) => {
             return (
               <TableRow key={item?.enBaseAsset}>
