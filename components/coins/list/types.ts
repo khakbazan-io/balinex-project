@@ -1,5 +1,5 @@
-import type { Coin } from "@/types/coins";
+import type { GetCoinsListResponse } from "@/models/coins";
 
 export type CoinsListCmProps = {
-  coins: Coin[] | undefined;
+  coins: GetCoinsListResponse | undefined;
 };

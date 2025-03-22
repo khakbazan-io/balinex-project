@@ -10,27 +10,51 @@ import {
 import type { CoinsListCmProps } from "./types";
 import Image from "next/image";
 import { formatPrice, shimmerPlaceholder } from "@/core/utils";
-import { Button } from "@/core/common";
+import { Button, Pagination } from "@/core/common";
 import { useMemo, useState } from "react";
 import { Tabs, Tab } from "@heroui/tabs";
 import { QuotesEnum, QuotesPersianLabel, type Quotes } from "@/types/coins";
 import { ChangePercentLabel } from "@/common";
+import { useGetCoinsList } from "@/models/coins";
+import { usePagination } from "@/core/hooks";
 
 export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
   const [currency, setCurrency] = useState<Quotes>(QuotesEnum.USDT);
 
+  const { currentPage, pageSize, onPageSelect } = usePagination({
+    id: "coinsList",
+    isZeroBase: false,
+    limit: 10,
+  });
+
+  const { data, isFetching } = useGetCoinsList({
+    params: {
+      pagination: {
+        page: currentPage,
+        per_page: pageSize,
+      },
+    },
+    initialData: () => {
+      if (currentPage !== 1) {
+        return undefined;
+      }
+
+      return coins;
+    },
+  });
+
   const coinsData = useMemo(() => {
-    if (!coins || !coins?.length) {
+    if (!data || !data?.result?.markets?.length) {
       return [];
     }
 
-    return coins?.map((item) => ({
+    return data?.result?.markets?.map((item) => ({
       ...item,
       quotes: {
         ...item?.quotes?.[currency],
       },
     }));
-  }, [coins, currency]);
+  }, [currency, data]);
 
   return (
     <div>
@@ -43,7 +67,18 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
         <Tab key={QuotesEnum.TMN} title={QuotesPersianLabel.TMN} />
       </Tabs>
 
-      <Table shadow="none" border={1} className="pt-3">
+      <Table
+        shadow="none"
+        border={1}
+        className="pt-3"
+        bottomContent={
+          <Pagination
+            total={data?.result_info?.total_count ?? 0}
+            page={currentPage}
+            onChange={(page) => onPageSelect(page)}
+          />
+        }
+      >
         <TableHeader>
           <TableColumn>ارز</TableColumn>
           <TableColumn>قیمت</TableColumn>
