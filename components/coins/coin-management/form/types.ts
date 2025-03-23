@@ -18,5 +18,4 @@ export enum CoinManagementFormFields {
   CoinWebsite = "coinWebsite",
   InitialPrice = "initialPrice",
   BlockchainPlatform = "blockchainPlatform",
-  IsActive = "isActive",
 }
