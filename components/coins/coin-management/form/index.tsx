@@ -30,6 +30,14 @@ export const CoinManagementForm: React.FC<CoinManagementFormCmProps> = ({
     resolver: zodResolver(coinManagementFormSchema),
 
     defaultValues: async () => {
+      /**
+       * Since React Hook Form doesn't allow directly setting async-derived values in `defaultValues`,
+       * you must provide a `defaultValues` function that returns a Promise resolving to your initial data.
+       *
+       * You can either define this async function manually, or simplify the process by using
+       * the `useDataPromise` hook — which generates a compatible promise function
+       * based on your data.
+       */
       if (initializerPromise) {
         return initializerPromise
           .then((res) => ({
