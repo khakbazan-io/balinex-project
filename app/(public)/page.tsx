@@ -1,6 +1,15 @@
 import { HighlightableText } from "@/common";
 import { CoinsList } from "@/components/coins";
+import { generateMeta } from "@/core/utils";
 import { getCoinsList } from "@/models/coins";
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMeta({
+    title: "خانه",
+    description: "خانه",
+  });
+}
 
 export default async function HomePage() {
   const coinsList = await getCoinsList({
