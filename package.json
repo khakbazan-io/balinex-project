@@ -7,7 +7,14 @@
     "name": "Ali Khakbazan",
     "url": "https://linkedin.com/in/khakbazan-ali"
   },
-  "keywords": ["nextjs","typescript","react query","tailwind css","nextjs template","nextjs kit"],
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "react query",
+    "tailwind css",
+    "nextjs template",
+    "nextjs kit"
+  ],
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
@@ -32,6 +39,7 @@
     "@heroui/listbox": "2.3.14",
     "@heroui/modal": "2.2.12",
     "@heroui/navbar": "2.2.13",
+    "@heroui/number-input": "^2.0.6",
     "@heroui/pagination": "2.2.13",
     "@heroui/radio": "^2.3.14",
     "@heroui/skeleton": "2.2.10",
