@@ -11,6 +11,9 @@ export {
   generateArticleSchema,
   generateCourseSchema,
   generateBreadcrumbSchema,
+  generateCoinSchema,
 } from "./generateSchema";
 export { formatPrice } from "./formatPrice";
 export { getQueryParams } from "./getQueryParams";
+export { arrayToString } from "./arrayToString";
+export { toStringArray } from "./toStringArray";
