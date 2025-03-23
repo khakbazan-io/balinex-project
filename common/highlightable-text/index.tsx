@@ -47,18 +47,12 @@ export const HighlightableText: React.FC<HighlightableTextCmProps> = ({
         value={keyword}
         className="max-w-96"
         onChange={(e) => setKeyword(e.target.value)}
-        aria-labelledby="highlight-title"
         aria-label="جستجوی کلمه در متن"
       />
 
-      <p
-        className="text-sm font-normal"
-        role="region"
-        aria-live="polite"
-        aria-label="نتیجه جستجو"
-      >
-        {getHighlightedText(keyword)}
-      </p>
+      <div role="region" aria-live="polite" aria-atomic="true">
+        <p className="text-sm font-normal">{getHighlightedText(keyword)}</p>
+      </div>
     </div>
   );
 };

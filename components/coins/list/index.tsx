@@ -8,10 +8,9 @@ import {
   TableRow,
 } from "@heroui/table";
 import type { CoinsListCmProps } from "./types";
-import Image from "next/image";
-import { formatPrice, shimmerPlaceholder } from "@/core/utils";
+import { formatPrice } from "@/core/utils";
 import { Button, Pagination } from "@/core/common";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Tabs, Tab } from "@heroui/tabs";
 import { QuotesEnum, QuotesPersianLabel, type Quotes } from "@/types/coins";
 import { ChangePercentLabel } from "@/common";
@@ -61,28 +60,29 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
 
     const result = data.result.markets.map((item) => ({
       ...item,
-      quotes: {
-        ...item.quotes?.[currency],
-      },
+      quotes: item.quotes?.[currency],
     }));
 
     if (!sortDescriptor) {
       return result;
     }
 
-    return result.slice().sort((a, b) => {
+    return [...result].sort((a, b) => {
       const valueA = Number(a.quotes?.percentChange24h) || 0;
       const valueB = Number(b.quotes?.percentChange24h) || 0;
 
-      if (sortDescriptor.direction === "ascending") {
-        return valueA - valueB;
-      } else {
-        return valueB - valueA;
-      }
+      return sortDescriptor.direction === "ascending"
+        ? valueA - valueB
+        : valueB - valueA;
     });
   }, [currency, data, sortDescriptor]);
 
-  console.log(coinsData);
+  const handleViewCoin = useCallback(
+    (href: string) => {
+      router.push(href);
+    },
+    [router]
+  );
 
   return (
     <div>
@@ -187,9 +187,7 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
                   <TableAction
                     items={coinsListActions}
                     onAction={{
-                      view: () => {
-                        router.push(singleCoinPageHref);
-                      },
+                      view: () => handleViewCoin(singleCoinPageHref),
                     }}
                   />
                 </TableCell>
