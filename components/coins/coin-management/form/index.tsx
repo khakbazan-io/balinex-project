@@ -107,6 +107,7 @@ export const CoinManagementForm: React.FC<CoinManagementFormCmProps> = ({
             label="بلاکچین"
             options={blockchainsOptions}
             size="sm"
+            offlineSearch
           />
         </Skeleton>
 
