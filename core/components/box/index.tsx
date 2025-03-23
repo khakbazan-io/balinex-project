@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardBody, CardHeader } from "@/core/common";
 import type { BoxCmProps } from "./types";
+import clsx from "clsx";
 
 export const Box: React.FC<BoxCmProps> = ({
   title,
@@ -11,8 +12,8 @@ export const Box: React.FC<BoxCmProps> = ({
   children,
 }) => {
   return (
-    <Card>
-      <CardHeader className="flex items-center justify-between">
+    <div className={clsx("bg-content1 p-4 rounded-lg space-y-5", className)}>
+      <div className="flex items-center justify-between">
         <div className="space-y-0.5">
           <h3 className="font-bold">{title}</h3>
 
@@ -20,9 +21,9 @@ export const Box: React.FC<BoxCmProps> = ({
         </div>
 
         {titleAddon && titleAddon}
-      </CardHeader>
+      </div>
 
-      <CardBody>{children}</CardBody>
-    </Card>
+      <div>{children}</div>
+    </div>
   );
 };
