@@ -19,6 +19,8 @@ import { useGetCoinsList } from "@/models/coins";
 import { usePagination } from "@/core/hooks";
 import { TableEmpty, TableLoading } from "@/core/components";
 import { useSortTable } from "@/hooks";
+import { TbPlus } from "react-icons/tb";
+import Link from "next/link";
 
 export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
   const [currency, setCurrency] = useState<Quotes>(QuotesEnum.USDT);
@@ -77,14 +79,22 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
 
   return (
     <div>
-      <Tabs
-        color="primary"
-        selectedKey={currency}
-        onSelectionChange={(value) => setCurrency(value as Quotes)}
-      >
-        <Tab key={QuotesEnum.USDT} title={QuotesPersianLabel.USDT} />
-        <Tab key={QuotesEnum.TMN} title={QuotesPersianLabel.TMN} />
-      </Tabs>
+      <div className="flex items-center justify-between gap-2">
+        <Tabs
+          color="primary"
+          selectedKey={currency}
+          onSelectionChange={(value) => setCurrency(value as Quotes)}
+        >
+          <Tab key={QuotesEnum.USDT} title={QuotesPersianLabel.USDT} />
+          <Tab key={QuotesEnum.TMN} title={QuotesPersianLabel.TMN} />
+        </Tabs>
+
+        <Link href="/new-coin">
+          <Button size="sm" startContent={<TbPlus size={17} />} color="primary">
+            رمزارز جدید
+          </Button>
+        </Link>
+      </div>
 
       <Table
         shadow="none"
