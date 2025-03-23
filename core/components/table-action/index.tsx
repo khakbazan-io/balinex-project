@@ -19,11 +19,11 @@ export function TableAction<T extends string>({
       <Dropdown
         shadow="sm"
         radius="sm"
-        className="p-0.5 shadow-none border border-foreground-200"
+        className="p-0.5 shadow-none border border-divider"
       >
         <DropdownTrigger>
           <Button isIconOnly size="sm" variant="light">
-            <TbDotsVertical size={22} className="text-foreground-500" />
+            <TbDotsVertical size={22} className="text-foreground/60" />
           </Button>
         </DropdownTrigger>
 

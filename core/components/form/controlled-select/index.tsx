@@ -43,12 +43,12 @@ export function ControlledSelect<TFieldValues extends FieldValues>({
       }
 
       const filteredList = options?.filter((opt) =>
-        opt.label.toLowerCase().includes(searchValue.toLowerCase()),
+        opt.label.toLowerCase().includes(searchValue.toLowerCase())
       );
 
       setFilteredOptions(filteredList);
     },
-    [options],
+    [options]
   );
 
   const selectOptions = useMemo(() => {
@@ -74,7 +74,7 @@ export function ControlledSelect<TFieldValues extends FieldValues>({
         control={control}
         render={({ field, fieldState }) => {
           const selectedOption = options.find(
-            (item) => item.value === field.value,
+            (item) => item.value === field.value
           );
 
           return (
@@ -106,7 +106,7 @@ export function ControlledSelect<TFieldValues extends FieldValues>({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.175 }}
-                    className="absolute z-[999999] w-full bg-content1 border border-divider rounded-lg mt-2 p-3 overflow-hidden"
+                    className="absolute !z-[999999] w-full bg-content1 border border-divider rounded-lg mt-2 p-3 overflow-hidden"
                   >
                     {isSearchAble && (
                       <Input

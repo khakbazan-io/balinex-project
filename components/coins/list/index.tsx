@@ -17,10 +17,17 @@ import { QuotesEnum, QuotesPersianLabel, type Quotes } from "@/types/coins";
 import { ChangePercentLabel } from "@/common";
 import { useGetCoinsList } from "@/models/coins";
 import { usePagination } from "@/core/hooks";
-import { TableEmpty, TableLoading } from "@/core/components";
+import { TableAction, TableEmpty, TableLoading } from "@/core/components";
 import { useSortTable } from "@/hooks";
+import { TbPlus } from "react-icons/tb";
+import Link from "next/link";
+import { coinsListActions } from "./constants";
+import { useRouter } from "next/navigation";
+import { CoinName } from "../coin-name";
 
 export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
+  const router = useRouter();
+
   const [currency, setCurrency] = useState<Quotes>(QuotesEnum.USDT);
 
   const { currentPage, pageSize, onPageSelect } = usePagination({
@@ -75,21 +82,32 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
     });
   }, [currency, data, sortDescriptor]);
 
+  console.log(coinsData);
+
   return (
     <div>
-      <Tabs
-        color="primary"
-        selectedKey={currency}
-        onSelectionChange={(value) => setCurrency(value as Quotes)}
-      >
-        <Tab key={QuotesEnum.USDT} title={QuotesPersianLabel.USDT} />
-        <Tab key={QuotesEnum.TMN} title={QuotesPersianLabel.TMN} />
-      </Tabs>
+      <div className="flex items-center justify-between gap-2">
+        <Tabs
+          color="primary"
+          selectedKey={currency}
+          onSelectionChange={(value) => setCurrency(value as Quotes)}
+        >
+          <Tab key={QuotesEnum.USDT} title={QuotesPersianLabel.USDT} />
+          <Tab key={QuotesEnum.TMN} title={QuotesPersianLabel.TMN} />
+        </Tabs>
+
+        <Link href="/new-coin">
+          <Button size="sm" startContent={<TbPlus size={17} />} color="primary">
+            رمزارز جدید
+          </Button>
+        </Link>
+      </div>
 
       <Table
         shadow="none"
         border={1}
         className="pt-3"
+        selectionMode="single"
         classNames={{
           emptyWrapper: "h-[550px]",
           loadingWrapper: "h-[550px]",
@@ -117,7 +135,7 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
 
           <TableColumn>کمترین قیمت 24H</TableColumn>
 
-          <TableColumn width={90}>خرید</TableColumn>
+          <TableColumn width={50}>خرید</TableColumn>
         </TableHeader>
 
         <TableBody
@@ -126,23 +144,19 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
           emptyContent={<TableEmpty />}
         >
           {coinsData?.map((item) => {
+            const singleCoinPageHref = `/coins/${item?.baseAsset.toLowerCase()}`;
+
             return (
-              <TableRow key={item?.enBaseAsset}>
+              <TableRow
+                className="cursor-pointer"
+                href={singleCoinPageHref}
+                key={item?.enBaseAsset}
+              >
                 <TableCell>
-                  <div className="flex items-center gap-x-3">
-                    <Image
-                      src={`https://api.wallex.ir/coins/${item?.baseAsset}.png?w=64&q=75`}
-                      className="max-w-full rounded-full object-cover"
-                      alt={`${item?.baseAsset} logo`}
-                      width={40}
-                      height={40}
-                      placeholder={shimmerPlaceholder(40, 40)}
-                    />
-
-                    <p>{item?.faBaseAsset}</p>
-
-                    <p className="text-foreground/60">{item?.baseAsset}</p>
-                  </div>
+                  <CoinName
+                    baseAsset={item?.baseAsset}
+                    faBaseAsset={item?.faBaseAsset}
+                  />
                 </TableCell>
 
                 <TableCell>
@@ -170,14 +184,14 @@ export const CoinsList: React.FC<CoinsListCmProps> = ({ coins }) => {
                 </TableCell>
 
                 <TableCell>
-                  <Button
-                    color="primary"
-                    variant="ghost"
-                    size="sm"
-                    className="border-1 font-semibold"
-                  >
-                    خرید/فروش
-                  </Button>
+                  <TableAction
+                    items={coinsListActions}
+                    onAction={{
+                      view: () => {
+                        router.push(singleCoinPageHref);
+                      },
+                    }}
+                  />
                 </TableCell>
               </TableRow>
             );

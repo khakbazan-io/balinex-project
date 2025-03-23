@@ -261,7 +261,7 @@ module.exports = {
               foreground: "#fff",
             },
             focus: "#006FEE",
-            overlay: "#eaebec",
+            overlay: "#000",
           },
         },
       },
