@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-	text-align: unset;
+	text-align: right;
 }
 
 .ltr {
