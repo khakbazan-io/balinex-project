@@ -1,35 +1,26 @@
-export const formatPrice = (str: string | number, round: number = 2) => {
-  const stringVal = String(str);
-  const lastTwoNumber = stringVal
-    ?.split(".")
-    ?.join("")
-    ?.split("0")
-    ?.join("")
-    ?.slice(0, 2);
-  const shouldFormat = stringVal?.split(".")?.[1]?.at(0) === "0";
-  const value = stringVal?.slice(0, stringVal?.indexOf(lastTwoNumber) + 2);
-
-  if (!/[1-9]/.test(stringVal?.split(".")?.[1])) {
-    return (
-      String(Number(stringVal).toFixed(0))?.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        ","
-      ) ?? ""
-    );
+export const formatPrice = (input: string | number): string => {
+  const value = Number(input);
+  if (isNaN(value)) {
+    return "-";
   }
-
-  if (Number(stringVal) === 0) {
+  if (value === 0) {
     return "-";
   }
 
-  if (Number(stringVal) >= 1 || !shouldFormat) {
-    return (
-      String(Number(stringVal).toFixed(round))?.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        ","
-      ) ?? ""
-    );
+  const absValue = Math.abs(value);
+
+  if (absValue >= 1) {
+    return value
+      .toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      .replace(/\.00$/, "");
   }
 
-  return value;
+  const decimalString = absValue.toFixed(20);
+  const [, fractionPart = ""] = decimalString.split(".");
+  const leadingZeros = fractionPart.match(/^0+/)?.[0].length || 0;
+
+  const dynamicDecimals = Math.min(leadingZeros + 2, 12);
+
+  return value.toFixed(dynamicDecimals).replace(/\.?0+$/, "");
 };
