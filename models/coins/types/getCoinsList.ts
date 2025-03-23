@@ -16,6 +16,9 @@ export type GetCoinsListResponse = {
 export type GetCoinsListParams = {
   params?: {
     pagination?: PaginationParams;
+    filters?: {
+      key?: string;
+    };
   };
 };
 

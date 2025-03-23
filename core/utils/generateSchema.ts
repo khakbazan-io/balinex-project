@@ -37,8 +37,9 @@ type CourseSchemaProps = {
  */
 type BreadcrumbSchemaProps = {
   title: string; // The name of the current page
-  slug: string; // The page slug
-  type: "course" | "blog"; // Page type (blog article or course)
+  parentSlug: string;
+  slug: string;
+  parentSlugName: string;
 };
 
 /**
@@ -148,12 +149,6 @@ export function generateArticleSchema({
       "@type": "Organization",
       name: site.name.fa,
       url: site.url,
-      logo: {
-        "@type": "ImageObject",
-        url: "https://storage.vaspar.io/general/vaspar-logo.png",
-        width: 600,
-        height: 140,
-      },
     },
     datePublished: toIsoDate(createdAt),
     dateModified: toIsoDate(updatedAt),
@@ -167,9 +162,10 @@ export function generateArticleSchema({
  * @returns {object} A structured **Breadcrumb Schema (JSON-LD)**.
  */
 export function generateBreadcrumbSchema({
-  type,
-  slug,
+  parentSlug,
+  parentSlugName,
   title,
+  slug,
 }: BreadcrumbSchemaProps) {
   return {
     "@context": "https://schema.org",
@@ -184,15 +180,66 @@ export function generateBreadcrumbSchema({
       {
         "@type": "ListItem",
         position: 2,
-        name: type === "blog" ? "مقالات" : "دوره های آموزشی",
-        item: `${site.url}/${type === "blog" ? "blog" : "courses"}`,
+        name: parentSlugName,
+        item: `${site.url}/${parentSlug}`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: title,
-        item: `${site.url}/${type === "blog" ? "blog" : "courses"}/${slug}`,
+        item: `${site.url}/${parentSlug}/${slug}`,
       },
     ],
+  };
+}
+
+export function generateCoinSchema({
+  name,
+  symbol,
+  slug,
+  description,
+  image,
+  currentPrice,
+  priceCurrency,
+  updatedAt,
+}: {
+  name: string;
+  symbol: string;
+  slug: string;
+  description: string;
+  image: string;
+  currentPrice: number;
+  priceCurrency: string;
+  updatedAt: string | Date;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Cryptocurrency",
+    name,
+    symbol,
+    description,
+    url: `${site.url}/coins/${slug}`,
+    image: {
+      "@type": "ImageObject",
+      url: image,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${site.url}/coins/${slug}`,
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency,
+      lowPrice: currentPrice,
+      highPrice: currentPrice,
+      offerCount: 1,
+    },
+    additionalType: "https://en.wikipedia.org/wiki/Cryptocurrency",
+    dateModified: toIsoDate(updatedAt),
+    publisher: {
+      "@type": "Organization",
+      name: site.name.fa,
+      url: site.url,
+    },
   };
 }
